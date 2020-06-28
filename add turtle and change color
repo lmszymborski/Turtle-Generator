@@ -1,0 +1,78 @@
+let button;
+var hcolor = 100; // head color;
+var scolor = 100; // shell color;
+var lcolor = 100; // leg color
+let turtX;
+let turtY;
+let turtles;
+
+function setup() {
+  createCanvas(720, 400);
+  background(255);
+  button= createButton('change colors');
+  button.position(30, 30);
+  button.mousePressed(changeColor);
+  turtX = width/3;
+  turtY = height/2;
+  turtles = [[width/3, height/2]];
+
+  //colorMode(HSB);
+}
+
+function draw() {
+  textSize(32);
+  text('click to add turtle', width/3, 30);
+  fill(0, 0, 0);
+  
+  
+  for (var i = 0; i < turtles.length; i++) {
+    drawTurt(turtles[i][0], turtles[i][1]);
+  }
+}
+
+function drawTurt(turtX, turtY) {
+  push();
+      noStroke();
+    translate(turtX, turtY);
+  
+    // turtle tail
+  push();
+  colorMode(HSB);
+  fill(mouseX/3, mouseY/3, mouseY/3);
+  triangle(167, 0, 150, -20, 200, -50);
+  pop();
+  
+  //turtle head
+  fill(hcolor, 0, 0); // will be a red color
+  ellipse(0, 0, 55, 55);
+  
+  //turtle shell
+  push();
+  rotate(PI);
+  fill(0, scolor, 0); // will be a green color
+  arc(-90, -20, 160, 160, 0, PI, CHORD);
+  pop();
+  
+  // turtle legs
+  let displace = 20;
+  for (var i = 0; i < 4; i++) {
+    fill(0, 0, lcolor); // will be a blue color
+    rect(displace, 20, 15, 30);
+    displace += 40;
+  } 
+  pop();
+}
+
+function mousePressed() {
+  if (!(mouseX > 30 && mouseX < 120 && mouseY > 30 && mouseY < 50)) {
+      drawTurt(mouseX, mouseY);
+    turtles.push([mouseX, mouseY]);
+  }
+}
+
+function changeColor(){
+  lcolor = random(0, 255);
+  hcolor = random(0,255);
+  scolor = random(0,255);
+  
+}
